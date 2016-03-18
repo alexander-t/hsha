@@ -1,0 +1,32 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.7.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'spring-boot'
+
+repositories {
+    mavenCentral()
+}
+
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+dependencies {
+    compile "org.codehaus.groovy:groovy-all:2.4.1"
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    compile "org.springframework.boot:spring-boot-starter-jetty"
+    compile "org.springframework.boot:spring-boot-starter-jersey"
+    compile "com.lmax:disruptor:3.2.0"
+    testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
+}
