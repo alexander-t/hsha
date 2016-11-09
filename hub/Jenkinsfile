@@ -1,0 +1,20 @@
+def gradleCmd = 'hub/gradlew -b hub/build.gradle'
+node {
+    stage('Pull SCM') {
+        git url: 'https://github.com/alexander-t/hsha.git'
+    }
+    
+    stage('Compile') {
+        sh "${gradleCmd} clean compileJava"
+    }
+    
+    stage('Unit test') {
+        sh "${gradleCmd} test"
+        step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/TEST-*.xml'])
+    }
+    
+    stage('Create Docker container') {
+        sh "${gradleCmd} build"
+        sh 'docker ps'
+    }
+}
