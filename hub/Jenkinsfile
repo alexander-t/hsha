@@ -1,4 +1,5 @@
-def gradleCmd = 'hub/gradlew -b hub/build.gradle'
+def projectDir = 'hub'
+def gradleCmd = "${projectDir}/gradlew -b ${projectDir}/build.gradle"
 node {
     stage('Pull SCM') {
         git url: 'https://github.com/alexander-t/hsha.git'
@@ -15,6 +16,7 @@ node {
     
     stage('Create Docker container') {
         sh "${gradleCmd} build"
-        sh 'docker ps'
+        sh "cp ${projectDir}/build/libs/hub.jar ${projectDir}/docker"
+        sh "docker build -t tarlinder/hsha/hub hub/docker"
     }
 }
