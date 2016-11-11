@@ -8,6 +8,23 @@ public class ServletContainerConfig implements EmbeddedServletContainerCustomize
 
     @Override
     public void customize(ConfigurableEmbeddedServletContainer container) {
-        container.setPort(8081);
+        container.setPort(determineContainerPort());
+    }
+
+    private int determineContainerPort() {
+        final int defaultPortNumber = 8080;
+        final int maxPortNumber = 65535;
+
+        int port = defaultPortNumber;
+        try {
+            port = Integer.parseInt(System.getProperty("port", defaultPortNumber + ""));
+        } catch (NumberFormatException e) {
+            // Do nothing. Default value is set.
+        }
+
+        if (port > maxPortNumber) {
+            port = defaultPortNumber;
+        }
+        return port;
     }
 }
