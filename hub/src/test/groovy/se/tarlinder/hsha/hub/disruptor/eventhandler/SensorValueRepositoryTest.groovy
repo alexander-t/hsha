@@ -24,9 +24,10 @@ class SensorValueRepositoryTest extends Specification {
         event.value = "10.5"
 
         when:
-        testedRepository.onEvent(event, 1, true)
+        final boolean ringBufferEndOfBatch = true;
+        testedRepository.onEvent(event, 1, ringBufferEndOfBatch)
 
         then:
-        testedRepository.getLastValueFor(100).get().get("temp") == "10.5"
+        testedRepository.getLastValueFor(event.sensorId).get().get("temp") == "10.5"
     }
 }
