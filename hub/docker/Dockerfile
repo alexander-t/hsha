@@ -11,6 +11,6 @@ COPY hub.jar /opt/hub/
 
 WORKDIR /opt/hub
 
-EXPOSE 8081
-ENTRYPOINT ["java", "-jar", "hub.jar"]
+EXPOSE 8090
+ENTRYPOINT ["java", "-Dport=8090" "-jar", "hub.jar"]
 
