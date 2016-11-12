@@ -27,6 +27,6 @@ node {
             println "Ignoring: ${e.message}"
             println "It just means that there are no containers to remove."
         }
-        //sh "docker run -p 8090:8090 -ti tarlinder/hsha/hub"
+        sh "docker run -d -i -p 8090:8090 tarlinder/hsha/hub"
     }
 }
