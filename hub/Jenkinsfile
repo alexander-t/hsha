@@ -4,19 +4,29 @@ node {
     stage('Pull SCM') {
         git url: 'https://github.com/alexander-t/hsha.git'
     }
-    
+
     stage('Compile') {
         sh "${gradleCmd} clean compileJava"
     }
-    
+
     stage('Unit test') {
         sh "${gradleCmd} test"
         step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/TEST-*.xml'])
     }
-    
+
     stage('Create Docker container') {
         sh "${gradleCmd} build"
         sh "cp ${projectDir}/build/libs/hub.jar ${projectDir}/docker"
         sh "docker build -t tarlinder/hsha/hub hub/docker"
+    }
+
+    stage('Start application') {
+        try {
+            sh 'docker rm $(docker ps -q -f status=exited)'
+        } catch (hudson.AbortException e) {
+            println "Ignoring: ${e.message}"
+            println "It just means that there are no containers to remove."
+        }
+        //sh "docker run -p 8090:8090 -ti tarlinder/hsha/hub"
     }
 }
