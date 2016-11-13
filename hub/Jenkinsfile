@@ -27,6 +27,6 @@ node {
             println "Ignoring: ${e.message}"
             println "It just means that there are no containers to remove."
         }
-        sh "docker run -d -i -p 8090:8090 tarlinder/hsha/hub"
+        sh "/usr/local/jenkins/retrywget.sh 45 cluster0:8090/"
     }
 }
