@@ -4,6 +4,12 @@ def gradleCmd = "${projectDir}/gradlew -b ${projectDir}/build.gradle"
 node {
     def idOfRunningApplication
 
+    stage('Check environment') {
+        if (!env.HOST) {
+            throw new IllegalStateException("Environment variable HOST my be set")
+        }
+    }
+
     stage('Pull SCM') {
         git url: 'https://github.com/alexander-t/hsha.git'
     }
@@ -40,7 +46,7 @@ node {
         sh "docker run -d -i -p 8090:8090 tarlinder/hsha/hub"
         retry(10) {
             sleep(5)
-            sh 'wget -O /dev/null -nv http://cluster0:8090/'
+            sh "wget -O /dev/null -nv http://${env.HOST}:8090/"
         }
     }
 }
