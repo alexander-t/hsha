@@ -27,9 +27,9 @@ public class RootResource {
         Properties properties = new Properties();
         try {
             properties.load(resource.getInputStream());
-            return String.format("HSHA Hub built %s", (String) properties.get("time"));
+            return String.format("HSHA Hub built %s", properties.getProperty("time"), "Not set by build!");
         } catch (IOException e) {
-            return "HSHA Hub (build info missing!)";
+            return "HSHA Hub (Error: buildInfo.properties missing!)";
         }
     }
 }
