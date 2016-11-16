@@ -9,6 +9,7 @@ node {
     }
 
     stage('Compile') {
+        writeFile file: "${projectDir}/src/main/resources/buildInfo.properties", text: 'time=' + sh(script: 'date', returnStdout: true)
         sh "${gradleCmd} clean compileJava"
     }
 
@@ -56,7 +57,7 @@ def runIgnoringFailure(String command, String explanation) {
 @NonCPS
 def killContainersWithIds(String ids) {
     if (!"".equals(ids)) {
-        for (String id: ids.split('\n')) {
+        for (String id : ids.split('\n')) {
             println "Killing container with id ${id}"
             sh "docker kill ${id}"
         }
