@@ -21,15 +21,24 @@ public class RootResource {
 
     @GET
     @Path("/")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public String index() {
+        return String.format("{application: 'HSHA Hub', build-time: %s}", getBuildTime());
+    }
+
+    private String getBuildTime() {
         Resource resource = resourceLoader.getResource("classpath:buildInfo.properties");
         Properties properties = new Properties();
+        String buildTime;
         try {
             properties.load(resource.getInputStream());
-            return String.format("HSHA Hub built %s", properties.getProperty("time"), "Not set by build!");
+            buildTime = properties.getProperty("time", "unset");
+            if ("".equals(buildTime)) {
+                buildTime = "unset";
+            }
         } catch (IOException e) {
-            return "HSHA Hub (Error: buildInfo.properties missing!)";
+            buildTime = "#error getting build time";
         }
+        return buildTime;
     }
 }
