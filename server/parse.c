@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <glib.h>
 #include <string.h>
-#include <stdio.h>
+
 SensorValue *parse_sensor_value(const char *line)
 {
    if (line == NULL || line[0] == '\0')
