@@ -7,11 +7,11 @@ struct input
    char *value;
 };
 
-struct sensor_value
+typedef struct sensor_value
 {
    int sensor_id;
    char *data_type;
    char *value;
-};
+} SensorValue;
 
 #endif
