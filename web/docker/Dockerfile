@@ -12,5 +12,5 @@ COPY web.jar /opt/web/
 WORKDIR /opt/hub
 
 EXPOSE 80
-ENTRYPOINT ["java", "-jar", "web.jar"]
+ENTRYPOINT ["java", "-jar", "web.jar", "--endpoint=cluster1:8090"]
 
