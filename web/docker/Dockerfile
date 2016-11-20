@@ -9,7 +9,7 @@ RUN apt-get update && \
 RUN mkdir -p /opt/web
 COPY web.jar /opt/web/
 
-WORKDIR /opt/hub
+WORKDIR /opt/web
 
 EXPOSE 80
 ENTRYPOINT ["java", "-jar", "web.jar", "--endpoint=cluster1:8090"]
