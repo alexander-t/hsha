@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home Automation</title>
+    <link href='https://fonts.googleapis.com/css?family=Teko:700' rel='stylesheet' type='text/css'/>
+    <link href='style.css' rel='stylesheet' type='text/css'/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="poll.js"></script>
+</head>
+
+<body>
+<div class="statusline" th:text="${endpoint}"></div>
+<div class="row">
+    <div class="col-1"><p class="small-caption">Ute</p></div>
+    <div class="col-1"><p class="small-caption">Inne</p></div>
+    <div class="col-19"></div>
+</div>
+<div class="row">
+    <div class="col-1"><p class="outdoor-temp big-caption"></p></div>
+    <div class="col-1"><p class="indoor-temp big-caption"></p></div>
+    <div class="col-19"></div>
+</div>
+<div class="row">
+    <div class="col-1"></div>
+    <div class="col-1"><p class="small-caption">Luftfuktighet</p></div>
+    <div class="col-10"></div>
+</div>
+<div class="row">
+    <div class="col-1"></div>
+    <div class="col-1"><p class="humidity big-caption"></p></div>
+    <div class="col-10"></div>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var endpoint = /*[[${endpoint}]]*/ null;
+    if (endpoint != null) {
+        updater.startPolling(endpoint)
+    }
+    /*]]>*/
+</script>
+</body>
+</html>
