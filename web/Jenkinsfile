@@ -1,0 +1,65 @@
+#!groovy​
+def projectDir = 'web'
+def gradleCmd = "${projectDir}/gradlew -b ${projectDir}/build.gradle"
+node {
+    def idOfRunningApplication
+
+    stage('Check environment') {
+        if (!env.HOST) {
+            throw new IllegalStateException("Environment variable HOST my be set")
+        }
+    }
+
+    stage('Pull SCM') {
+        git url: 'https://github.com/alexander-t/hsha.git'
+    }
+
+    stage('Compile') {
+        sh "${gradleCmd} clean compileJava"
+    }
+
+    stage('Create Docker container') {
+        // Save container id to kill before creating a new container with the same tag
+        idOfRunningApplication = sh(script: 'docker ps -q --filter="ancestor=tarlinder/hsha/web:latest"', returnStdout: true).trim()
+
+        sh "${gradleCmd} build"
+        sh "cp ${projectDir}/build/libs/web.jar ${projectDir}/docker"
+        sh "docker build -t tarlinder/hsha/web ${projectDir}/docker"
+    }
+
+    stage('Stop application and perform Docker cleanup') {
+        killContainersWithIds(idOfRunningApplication)
+        runIgnoringFailure('docker rm $(docker ps -q -f status=exited)',
+                "There are no containers to remove")
+
+        runIgnoringFailure('docker rmi $(docker images -q --filter "dangling=true")',
+                "There are no dangling images to remove")
+    }
+
+    stage('Start application') {
+        sh "docker run -d -i -p 80:80 tarlinder/hsha/web"
+        retry(10) {
+            sleep(5)
+            sh "wget -O /dev/null -nv http://${env.HOST}/"
+        }
+    }
+}
+
+def runIgnoringFailure(String command, String explanation) {
+    try {
+        sh command
+    } catch (hudson.AbortException e) {
+        println "Ignoring: ${e.message}"
+        println "Probable explanation: " + explanation
+    }
+}
+
+@NonCPS
+def killContainersWithIds(String ids) {
+    if (!"".equals(ids)) {
+        for (String id : ids.split('\n')) {
+            println "Killing container with id ${id}"
+            sh "docker kill ${id}"
+        }
+    }
+}
