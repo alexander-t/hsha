@@ -8,6 +8,7 @@ html {
 
 body {
     background: black;
+    color: white;
 }
 
 div, p {
@@ -40,14 +41,21 @@ div, p {
 }
 
 .small-caption {
-    font-family: 'Verdana';
+    font-family: 'Verdana', sans-serif;
     font-size: 0.8em;
     font-weight: lighter;
     color: aqua;
 }
 
 .big-caption {
-    font-family: 'Teko';
+    font-family: 'Teko', serif;
     font-size: 3em;
     color: lime;
+}
+
+.statusline {
+    width: 100%;
+    color: lightgray;
+    text-align: right;
+    font-size: 0.6em;
 }
