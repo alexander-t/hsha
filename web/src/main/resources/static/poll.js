@@ -10,6 +10,7 @@ var updater = {
                 $.ajax({
                     url: "http://" + endpointUrl + "/sensor/" + sensorId
                 }).then(function (data) {
+                    $("#updateTime").html(moment().format("hh:mm:ss"));
                     $('.' + mapping.class.temp).html(data.temp + '&deg;');
                     if ("humidity" in mapping.class) {
                         $('.' + mapping.class.humidity).html(data.humidity + '%');
