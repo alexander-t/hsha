@@ -20,7 +20,7 @@ sensor_dispatcher: sensor_dispatcher.o
 sensor_json_consumer: sensor_json_consumer.o json_post.o parse.o
 	gcc -o sensor_json_consumer sensor_json_consumer.o json_post.o parse.o $(LIB_GLIB) $(LIB_CURL)
 
-tests: check_parse check_json_post
+tests: check_parse 
 
 check_parse: check_parse.o parse.o
 	gcc -o check_parse check_parse.o parse.o $(TEST_LIBS) $(LIB_GLIB)
