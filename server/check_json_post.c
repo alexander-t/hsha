@@ -20,7 +20,7 @@ START_TEST(json_post_performs_GET_of_a_url)
 }
 END_TEST
 
-Suite *parse_consumer_suite(void)
+Suite *json_post_suite(void)
 {
    TCase *tc_positive = tcase_create("Positive");
    tcase_add_test(tc_positive, json_post_performs_GET_of_a_url);
@@ -28,19 +28,4 @@ Suite *parse_consumer_suite(void)
    Suite *s = suite_create("json_post_get");
    suite_add_tcase(s, tc_positive);
    return s;
-}
-
-int main(void)
-{
-   int number_failed;
-   Suite *s;
-   SRunner *sr;
-
-   s = parse_consumer_suite();
-   sr = srunner_create(s);
-
-   srunner_run_all(sr, CK_NORMAL);
-   number_failed = srunner_ntests_failed(sr);
-   srunner_free(sr);
-   return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

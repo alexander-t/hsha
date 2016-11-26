@@ -20,13 +20,10 @@ sensor_dispatcher: sensor_dispatcher.o
 sensor_json_consumer: sensor_json_consumer.o json_post.o parse.o
 	gcc -o sensor_json_consumer sensor_json_consumer.o json_post.o parse.o $(LIB_GLIB) $(LIB_CURL)
 
-tests: check_parse 
+tests: run_tests
 
-check_parse: check_parse.o parse.o
-	gcc -o check_parse check_parse.o parse.o $(TEST_LIBS) $(LIB_GLIB)
-
-check_json_post: check_json_post.o json_post.o
-	gcc -o check_json_post check_json_post.o json_post.o $(TEST_LIBS) $(LIB_CURL)
+run_tests: run_tests.o check_parse.o parse.o check_json_post.o json_post.o
+	gcc -o run_tests run_tests.o check_parse.o parse.o check_json_post.o json_post.o $(TEST_LIBS) $(LIB_GLIB) $(LIB_CURL)
 
 clean:
-	rm -f *.o *~ sensor_dispatcher sensor_json_consumer check_parse check_json_post
+	rm -f *.o *~ sensor_dispatcher sensor_json_consumer run_tests
