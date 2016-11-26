@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -O2 `pkg-config --cflags glib-2.0`
+CFLAGS=-std=c99 -Wall -O2 `pkg-config --cflags glib-2.0`
 
 LIB_GLIB=`pkg-config --libs glib-2.0`
 LIB_CURL=-lcurl
