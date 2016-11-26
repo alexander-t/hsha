@@ -1,1 +1,2 @@
-info /^gcc/
+start /make clean/
+start /Running suite/
