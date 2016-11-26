@@ -1,22 +1,27 @@
 #!groovy
 def projectDir = 'server'
+try {
+    node {
+        stage('Pull SCM') {
+            git url: 'https://github.com/alexander-t/hsha.git'
+        }
 
-node {
-    stage('Pull SCM') {
-        git url: 'https://github.com/alexander-t/hsha.git'
+        dir(projectDir) {
+            stage('Compile') {
+                sh 'make clean all'
+            }
+
+            stage('Test') {
+                env.CK_XML_LOG_FILE_NAME = 'TEST-results.xml'
+                sh './run_tests'
+                step([$class: 'XUnitPublisher', tools: [
+                    [$class: 'CheckType', pattern: '**/TEST-*.xml', stopProcessingIfError: true]
+                ]])
+            }
+        }
     }
-
-    dir(projectDir) {
-        stage('Compile') {
-            sh 'make clean all'
-        }
-
-        stage('Test') {
-            env.CK_XML_LOG_FILE_NAME = 'TEST-results.xml'
-            sh './run_tests'
-            step([$class: 'XUnitPublisher', tools: [
-				[$class: 'CheckType', pattern: '**/TEST-*.xml', stopProcessingIfError: true]
-			]])
-        }
+} finally {
+    node {
+        step([$class: 'LogParserPublisher', parsingRulesPath: "${WORKSPACE}/logparser.rules", useProjectRule: false])
     }
 }
