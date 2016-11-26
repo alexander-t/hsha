@@ -30,12 +30,9 @@ int json_post_init()
 
 int json_post_get(const char* url, bool verbose)
 {
-   curl_easy_setopt(curl, CURLOPT_URL, url);
    curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "GET");
-   if (verbose)
-   {
-      curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
-   }
+   curl_easy_setopt(curl, CURLOPT_URL, url);
+   curl_easy_setopt(curl, CURLOPT_VERBOSE, verbose ? 1L : 0);
    return curl_easy_perform(curl) == CURLE_OK ? JSON_POST_OK : JSON_POST_GET_FAILED;
 }
 

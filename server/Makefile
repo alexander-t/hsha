@@ -26,7 +26,7 @@ check_parse: check_parse.o parse.o
 	gcc -o check_parse check_parse.o parse.o $(TEST_LIBS) $(LIB_GLIB)
 
 check_json_post: check_json_post.o json_post.o
-	gcc -o check_json_post check_json_post.o json_post.o $(TEST_LIBS) $(LIB_GLIB) $(LIB_CURL)
+	gcc -o check_json_post check_json_post.o json_post.o $(TEST_LIBS) $(LIB_CURL)
 
 clean:
-	rm -f *.o *~ sensor_dispatcher sensor_json_consumer check_parse
+	rm -f *.o *~ sensor_dispatcher sensor_json_consumer check_parse check_json_post
