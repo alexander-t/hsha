@@ -13,7 +13,7 @@ node {
 
         stage('Test') {
             env.CK_XML_LOG_FILE_NAME = 'TEST-results.xml'
-            sh './check_parse'
+            sh './run_tests'
             step([$class: 'XUnitPublisher', tools: [
 				[$class: 'CheckType', pattern: '**/TEST-*.xml', stopProcessingIfError: true]
 			]])
