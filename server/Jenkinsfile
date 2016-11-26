@@ -22,6 +22,6 @@ try {
     }
 } finally {
     node {
-        step([$class: 'LogParserPublisher', parsingRulesPath: "${WORKSPACE}/logparser.rules", useProjectRule: false])
+        step([$class: 'LogParserPublisher', parsingRulesPath: "${WORKSPACE}/server/logparser.rules", useProjectRule: false])
     }
 }
