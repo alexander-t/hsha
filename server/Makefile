@@ -26,4 +26,4 @@ run_tests: run_tests.o check_parse.o parse.o check_json_post.o json_post.o
 	gcc -o run_tests run_tests.o check_parse.o parse.o check_json_post.o json_post.o $(TEST_LIBS) $(LIB_GLIB) $(LIB_CURL)
 
 clean:
-	rm -f *.o *~ captor sensor_json_consumer run_tests
+	rm -f *.o *~ captor sensor_json_consumer run_tests *.xml
