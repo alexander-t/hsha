@@ -24,6 +24,11 @@ node {
         step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/TEST-*.xml'])
     }
 
+    stage('Integration test') {
+        sh "${gradleCmd} integrationTest"
+        step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/TEST-*.xml'])
+    }
+
     stage('Create Docker container') {
         // Save container id to kill before creating a new container with the same tag
         idOfRunningApplication = sh(script: 'docker ps -q --filter="ancestor=tarlinder/hsha/hub:latest"', returnStdout: true).trim()
