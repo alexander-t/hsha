@@ -6,7 +6,7 @@ import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
-import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.context.embedded.LocalServerPort
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
 
@@ -18,7 +18,7 @@ import static io.restassured.RestAssured.given
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class DeviceResourceTest {
 
-    @Value('${local.server.port}')
+    @LocalServerPort
     private int port
 
     @Before
