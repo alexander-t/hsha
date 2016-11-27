@@ -21,12 +21,12 @@ node {
 
     stage('Unit test') {
         sh "${gradleCmd} test"
-        step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/TEST-*.xml'])
+        step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/test/TEST-*.xml'])
     }
 
     stage('Integration test') {
         sh "${gradleCmd} integrationTest"
-        step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/TEST-*.xml'])
+        step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/integrationTest/TEST-*.xml'])
     }
 
     stage('Create Docker container') {
