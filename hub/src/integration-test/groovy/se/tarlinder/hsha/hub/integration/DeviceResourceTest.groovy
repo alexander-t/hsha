@@ -33,7 +33,6 @@ class DeviceResourceTest {
 
     @Test
     void "1.Querying status when no events are registered produces 404"() {
-        expect:
         given().log().all().when().get("/device/123").then().statusCode(404);
     }
 }

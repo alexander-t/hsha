@@ -10,15 +10,28 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'spring-boot'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
 }
 
-compileJava {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+sourceSets {
+    integrationTest {
+        groovy.srcDir file('src/integration-test/groovy')
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output + test.output
+        resources.srcDir file('src/integration-test/resources')
+    }
 }
+configurations {
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
+}
+
 
 dependencies {
     compile "org.codehaus.groovy:groovy-all:2.4.1"
@@ -29,6 +42,22 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-jersey"
     compile "com.lmax:disruptor:3.2.0"
     testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
-    testCompile "org.springframework.boot:spring-boot-starter-test"
-    testCompile "io.rest-assured:rest-assured:3.0.1"
+    integrationTestCompile "org.springframework.boot:spring-boot-starter-test"
+    integrationTestCompile "io.rest-assured:rest-assured:3.0.1"
 }
+
+idea {
+    module {
+        scopes.TEST.plus += [ configurations.integrationTestCompile ]
+    }
+}
+
+task integrationTest(type: Test) {
+    description = 'Runs the integration tests'
+    group = 'verification'
+    testClassesDir = sourceSets.integrationTest.output.classesDir
+    classpath = sourceSets.integrationTest.runtimeClasspath
+}
+
+check.dependsOn integrationTest
+integrationTest.mustRunAfter test
