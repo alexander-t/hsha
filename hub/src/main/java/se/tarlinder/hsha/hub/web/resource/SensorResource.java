@@ -23,6 +23,14 @@ public class SensorResource {
     @Autowired
     SensorValueRepository sensorValueRepository;
 
+    // Mostly for smoke testing
+    @GET
+    @Path("/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getResourceRoot() {
+        return Response.status(Status.OK).build();
+    }
+
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -40,7 +48,7 @@ public class SensorResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerSensorEvent(@PathParam("id") int sensorId, SensorEvent sensorEvent) {
         eventEnqueuerService.enqueue(sensorEvent);
-        return Response.status(200).build();
+        return Response.status(Status.OK).build();
     }
 
 }
