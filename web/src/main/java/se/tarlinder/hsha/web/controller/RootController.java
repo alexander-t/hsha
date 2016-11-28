@@ -13,7 +13,7 @@ public class RootController {
     Environment environment;
 
     @RequestMapping("/")
-    public String greeting(Model model) {
+    public String root(Model model) {
         model.addAttribute("endpoint", environment.getProperty("endpoint", "localhost"));
         return "index";
     }
