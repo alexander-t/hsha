@@ -1,7 +1,6 @@
 CC=gcc
 CFLAGS=-c -std=gnu99 -Wall -O2 `pkg-config --cflags glib-2.0`
-TEST_LIBS=-lcheck -lpthread -lrt -lm
-LDFLAGS=`pkg-config --libs glib-2.0` -lcurl -ltelldus-core $(TEST_LIBS)
+LDFLAGS=`pkg-config --libs glib-2.0` -lcurl -ltelldus-core -lcheck -lpthread -lrt -lm
 
 all: captor sensor_json_consumer tests
 
@@ -12,6 +11,9 @@ sensor_json_consumer: sensor_json_consumer.o json_post.o parse.o
 	$(CC) $(LDFLAGS) $^ -o $@
 
 tests: run_tests
+
+run_tests: run_tests.o check_parse.o check_json_post.o parse.o json_post.o
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 .c.o:
 	$(CC) $(CFLAGS) $< -o $@
