@@ -20,7 +20,7 @@ node {
     }
 
     stage('Unit test') {
-        sh "${gradleCmd} test"
+        sh "${gradleCmd} test jacocoTestReport"
         step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/test/TEST-*.xml'])
     }
 
