@@ -3,7 +3,7 @@ package se.tarlinder.hsha.hub.web.resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.tarlinder.hsha.hub.disruptor.eventhandler.SensorValueRepository;
-import se.tarlinder.hsha.hub.event.SensorEvent;
+import se.tarlinder.hsha.hub.event.json.SensorEvent;
 import se.tarlinder.hsha.hub.service.EventEnqueuerService;
 
 import javax.ws.rs.*;

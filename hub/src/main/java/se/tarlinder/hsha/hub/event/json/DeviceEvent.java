@@ -1,4 +1,4 @@
-package se.tarlinder.hsha.hub.event;
+package se.tarlinder.hsha.hub.event.json;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
