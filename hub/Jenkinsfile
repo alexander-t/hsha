@@ -22,6 +22,7 @@ node {
     stage('Unit test') {
         sh "${gradleCmd} test jacocoTestReport"
         step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/test/TEST-*.xml'])
+        publishHTML (target: [reportDir: "${projectDir}/build/reports/jacoco/test/html", reportFiles: 'index.html', reportName: "JaCoCo Code Coverage", keepAll: true])
     }
 
     stage('Integration test') {
