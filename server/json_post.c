@@ -54,6 +54,13 @@ void json_post_cleanup()
 void json_post_write_sensor_event(char* dest, size_t max_length, int sensor_id,
 				  const char* value, const char* data_type)
 {
-   snprintf(dest, max_length, "{\"sensor_id\":\"%d\",\"value\":\"%s\",\"data_type\":\"%s\"}",
+   snprintf(dest, max_length, "{\"sensor_id\":%d,\"value\":\"%s\",\"data_type\":\"%s\"}",
 	    sensor_id, value, data_type);
+}
+
+void json_post_write_device_event(char* dest, size_t max_length, int device_id,
+				  const char* value, const char* device_name)
+{
+   snprintf(dest, max_length, "{\"device_id\":%d,\"value\":\"%s\",\"device_name\":\"%s\"}",
+	    device_id, value, device_name);
 }

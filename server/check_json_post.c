@@ -20,10 +20,30 @@ START_TEST(json_post_performs_GET_of_a_url)
 }
 END_TEST
 
+START_TEST(json_post_write_sensor_event_correct_values)
+{
+   char actual[512];
+   char *expected = "{\"sensor_id\":1024,\"value\":\"36.6\",\"data_type\":\"temp\"}";
+   json_post_write_sensor_event(actual, 512, 1024, "36.6", "temp");
+   ck_assert_str_eq(actual, expected);
+}
+END_TEST
+
+START_TEST(json_post_write_device_event_correct_values)
+{
+   char actual[512];
+   char *expected = "{\"device_id\":32768,\"value\":\"off\",\"device_name\":\"Motion Sensor #4\"}";
+   json_post_write_device_event(actual, 512, 32768, "off", "Motion Sensor #4");
+   ck_assert_str_eq(actual, expected);
+}
+END_TEST
+
 Suite *json_post_suite(void)
 {
    TCase *tc_positive = tcase_create("Positive");
    tcase_add_test(tc_positive, json_post_performs_GET_of_a_url);
+   tcase_add_test(tc_positive, json_post_write_sensor_event_correct_values);
+   tcase_add_test(tc_positive, json_post_write_device_event_correct_values);
 
    Suite *s = suite_create("json_post_get");
    suite_add_tcase(s, tc_positive);

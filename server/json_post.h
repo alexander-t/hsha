@@ -43,8 +43,21 @@ void json_post_cleanup();
  * @param dest buffer to write to
  * @param max_length maximum size of the buffer
  * @param sensor_id sensor id
+ * @param value the sensor's value
+ * @param data_type a textual description of the data type; "temp", "humidity", etc  
  */
 void json_post_write_sensor_event(char* dest, size_t max_length, int sensor_id,
 				  const char* value, const char* data_type);
 
+/**
+ * @brief Writes a JSON string containing the device event.
+ *
+ * @param dest buffer to write to
+ * @param max_length maximum size of the buffer
+ * @param device_id device id
+ * @param value the device's value (most likely "on" or "off")
+ * @param device_name name appearing in tellstick.conf
+ */
+void json_post_write_device_event(char* dest, size_t max_length, int device_id,
+				  const char* value, const char* device_name);
 #endif 

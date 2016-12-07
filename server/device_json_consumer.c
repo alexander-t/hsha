@@ -21,28 +21,28 @@ struct PostData
 void *json_poster_func(void *data) {
    struct PostData *post_data = (struct PostData *) data;
    GAsyncQueue *queue = post_data->queue;
-   SensorValue *sensor_value;
+   DeviceValue *device_value;
    char url[URL_SIZE];
 
    while (1)
    {
-      sensor_value = g_async_queue_pop(queue);
+      device_value = g_async_queue_pop(queue);
 
-      json_post_write_sensor_event(json_message, MESSAGE_SIZE,
-				   sensor_value->sensor_id,
-				   sensor_value->value,
-				   sensor_value->data_type);
+      json_post_write_device_event(json_message, MESSAGE_SIZE,
+				   device_value->device_id,
+				   device_value->value,
+				   device_value->device_name);
 
-      snprintf(url, URL_SIZE, "http://%s/sensor/%d",
-	       post_data->host, sensor_value->sensor_id);
+      snprintf(url, URL_SIZE, "http://%s/device/%d",
+	       post_data->host, device_value->device_id);
       json_post_send(url, json_message);
-      sensor_value_free(sensor_value);
+      device_value_free(device_value);
    }
    return NULL;
 }
 
 int main(int argc, char **argv) {
-   struct sensor_value *input;
+   struct device_value *input;
    char *line = NULL;
    size_t len = 0;
    GAsyncQueue *queue = g_async_queue_new();
@@ -72,7 +72,7 @@ int main(int argc, char **argv) {
 
    while (getline(&line, &len, stdin) != -1)
    {
-      input = parse_sensor_value(line);
+      input = parse_device_value(line);
       if (input != NULL)
 	 g_async_queue_push(queue, input);
       else
