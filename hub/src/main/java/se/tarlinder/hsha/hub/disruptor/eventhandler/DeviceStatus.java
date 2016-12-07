@@ -15,10 +15,14 @@ public class DeviceStatus {
     @JsonProperty("last_value")
     public final String lastValue;
 
-    public DeviceStatus(int deviceId, String deviceName, String lastValue) {
+   @JsonProperty("updated")
+   public final long updated;
+
+    public DeviceStatus(int deviceId, String deviceName, String lastValue, long updated) {
         this.deviceId = deviceId;
         this.deviceName = deviceName;
         this.lastValue = lastValue;
+        this.updated = updated;
     }
 
     @Override
@@ -27,13 +31,14 @@ public class DeviceStatus {
         if (o == null || getClass() != o.getClass()) return false;
         DeviceStatus that = (DeviceStatus) o;
         return deviceId == that.deviceId &&
+                updated == that.updated &&
                 Objects.equals(deviceName, that.deviceName) &&
                 Objects.equals(lastValue, that.lastValue);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(deviceId, deviceName, lastValue);
+        return Objects.hash(deviceId, deviceName, lastValue, updated);
     }
 
     @Override
@@ -42,6 +47,7 @@ public class DeviceStatus {
                 "deviceId=" + deviceId +
                 ", deviceName='" + deviceName + '\'' +
                 ", lastValue='" + lastValue + '\'' +
+                ", updated=" + updated +
                 '}';
     }
 }

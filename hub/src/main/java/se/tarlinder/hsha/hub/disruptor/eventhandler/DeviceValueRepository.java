@@ -22,7 +22,7 @@ public class DeviceValueRepository implements EventHandler<SuperEvent> {
     public void onEvent(SuperEvent event, long sequence, boolean endOfBatch) {
         if (event.isDeviceEvent()) {
             devices.put(event.id,
-                    new DeviceStatus(event.id, event.deviceName, event.value));
+                    new DeviceStatus(event.id, event.deviceName, event.value, System.currentTimeMillis()));
         }
     }
 
