@@ -34,3 +34,36 @@ SensorValue *parse_sensor_value(const char *line)
       return NULL;
    }
 }
+
+
+DeviceValue *parse_device_value(const char *line)
+{
+   if (line == NULL || line[0] == '\0')
+      return NULL;
+  
+   if (strlen(line) > 0 && line[0] != 'D')
+      return NULL;
+
+   // -1 = no first character
+   gchar *line_to_parse = g_strndup(&line[1], strlen(line) - 1);
+   line_to_parse[strcspn(line_to_parse, "\n")] = '\0';
+
+   gchar** fields = g_strsplit(line_to_parse, ",", NOF_INPUT_TOKENS);
+   g_free(line_to_parse);
+
+   // Checking sizeof isn't sufficient. Too short strings will pass that check
+   if (sizeof(fields) == NOF_INPUT_TOKENS + 1 && fields[NOF_INPUT_TOKENS] == NULL)
+   {
+      DeviceValue *parsed = malloc(sizeof(DeviceValue));
+      parsed->device_id = atoi(fields[0]);
+      parsed->value = strdup(fields[1]);
+      parsed->device_name = strdup(fields[2]);
+      g_strfreev(fields);
+      return parsed;
+   }
+   else
+   {
+      g_strfreev(fields);
+      return NULL;
+   }
+}

@@ -13,4 +13,12 @@
  */
 SensorValue *parse_sensor_value(const char *line);
 
+
+/**
+ * @brief Parses input on the form D<device_id>,<value>,<device name>
+ *
+ * @param line line of input terminated with '\n'.
+ * @return NULL if the line doesn't start with 'S' or if the parsing fails for another reason.
+ */
+DeviceValue *parse_device_value(const char* line);
 #endif

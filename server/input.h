@@ -14,4 +14,12 @@ typedef struct sensor_value
    char *value;
 } SensorValue;
 
+
+typedef struct device_value
+{
+   int device_id;
+   char *value;
+   char *device_name;
+} DeviceValue;
+
 #endif
