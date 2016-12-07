@@ -4,9 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class DeviceEvent {
 
+    // The @JsonProperty are redundant here, but have been put in for clarity
     @JsonProperty("device_id")
     public int deviceId;
     public String value;
+
+    @JsonProperty("device_name")
     public String deviceName;
 
     @Override
