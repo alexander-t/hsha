@@ -6,7 +6,7 @@ import spock.lang.Specification
 
 class DeviceValueRepositoryTest extends Specification {
 
-    def testedRepository;
+    DeviceValueRepository testedRepository;
 
     def setup() {
         testedRepository = new DeviceValueRepository()
@@ -24,7 +24,12 @@ class DeviceValueRepositoryTest extends Specification {
         testedRepository.onEvent(new SuperEvent([id: 4, eventType: EventType.DEVICE, deviceName: "Motion Sensor #1", value: "on"]), 1, ringBufferEndOfBatch)
 
         expect:
-        testedRepository.getAll() == [new DeviceStatus(4, "Motion Sensor #1", "on")]
+        testedRepository.getAll().size() == 1
+        def deviceStatus = testedRepository.getAll()[0]
+        deviceStatus.deviceId == 4
+        deviceStatus.lastValue == "on"
+        deviceStatus.deviceName == "Motion Sensor #1"
+        System.currentTimeMillis() - deviceStatus.updated < 500
     }
 
     def "Device list is sorted on device id"() {
@@ -40,8 +45,6 @@ class DeviceValueRepositoryTest extends Specification {
         testedRepository.onEvent(device4Event, 3, ringBufferEndOfBatch)
 
         then:
-        testedRepository.getAll() == [new DeviceStatus(4, "Motion Sensor #1", "on"),
-                                      new DeviceStatus(44, "Magnetic Sensor", "off"),
-                                      new DeviceStatus(888, "Outdoor Motion Sensor #1", "on")]
+        testedRepository.getAll().collect({ it.deviceId }) == [4, 44, 888]
     }
 }
