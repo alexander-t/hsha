@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <glib.h>
+#include "debug.h"
 #include "input.h"
 #include "parse.h"
 #include "json_post.h"
@@ -35,6 +36,8 @@ void *json_poster_func(void *data) {
 
       snprintf(url, URL_SIZE, "http://%s/device/%d",
 	       post_data->host, device_value->device_id);
+      debug_print("%s: %s\n", url, json_message);
+
       json_post_send(url, json_message);
       device_value_free(device_value);
    }
@@ -48,7 +51,8 @@ int main(int argc, char **argv) {
    GAsyncQueue *queue = g_async_queue_new();
    struct PostData post_data;
    post_data.queue = queue;
-   
+
+   setbuf(stdout, NULL);
    if (json_post_init() != JSON_POST_OK)
    {
       fprintf(stderr, "Couldn't initialize json_post!\n");
@@ -72,11 +76,18 @@ int main(int argc, char **argv) {
 
    while (getline(&line, &len, stdin) != -1)
    {
+      debug_print("<< %s", line);
       input = parse_device_value(line);
       if (input != NULL)
+      {
+	 debug_print("%s", "parsed and enqueued\n");
 	 g_async_queue_push(queue, input);
+      }
       else
+      {
+	 debug_print(">> %s", line);
 	 printf("%s", line);
+      }
    }
    free(line);
    json_post_cleanup();
