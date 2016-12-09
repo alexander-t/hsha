@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-c -std=gnu99 -Wall -O2 `pkg-config --cflags glib-2.0`
+CFLAGS=-c -std=gnu99 -Wall -O2 `pkg-config --cflags glib-2.0` -DDEBUG=0
 LDFLAGS=`pkg-config --libs glib-2.0` -lcurl -ltelldus-core -lcheck -lpthread -lrt -lm
 
 all: captor sensor_json_consumer device_json_consumer tests
